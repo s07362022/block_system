@@ -1,0 +1,32 @@
+import paho.mqtt.client as mqtt
+import json
+import LED_test
+import pac_test
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+
+    client.subscribe("pc/try")
+
+def on_message(client, userdata, msg):
+
+    numx1=msg.payload.decode('utf-8')
+    numx1=json.loads(numx1) 
+    #numx2=numx1['nonum']
+    ind=numx1['nonum']
+    print(numx1['nonum'])
+    port = numx1['port']
+    if port == 1:
+        pac_test.h_led(ind)
+    #LED_test.linghts(numx1)
+
+client = mqtt.Client()
+
+client.on_connect = on_connect
+
+client.on_message = on_message
+
+client.username_pw_set("","")
+
+client.connect("192.168.0.161", 1883, 60) 
+
+client.loop_forever()

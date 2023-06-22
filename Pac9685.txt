@@ -1,0 +1,22 @@
+from Adafruit_PCA9685 import PCA9685
+import time
+#print(i2c)
+pca = PCA9685()
+
+pca.frequency = 100
+
+led_channel = 0
+#for i in range(16):
+    #exec(f'led_channel{i}={i}')
+
+brightness = 4095
+def h_led(ind):
+    for i in range(16):
+        exec(f'led_channel{i}={i}')
+    for i in range(16):
+        exec(f'pca.set_pwm(led_channel{i},0,0)')
+    pca.set_pwm(ind,0,brightness)
+for i in range(16):
+    exec(f'led_channel{i}={i}')
+for i in range(16):
+    exec(f'pca.set_pwm(led_channel{i},0,0)')
